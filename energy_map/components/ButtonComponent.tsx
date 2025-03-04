@@ -30,6 +30,14 @@ const ButtonComponent = () => {
                 }
 
                 const result = await response.json();
+                const coolingLoad = result.cooling_load_prediction?.[0] ?? "N/A";
+                const heatingLoad = result.heating_load_prediction?.[0] ?? "N/A";
+
+                alert(
+                    `Energy Load Predictions:\n\n` +
+                    `Cooling Load: ${coolingLoad.toFixed(2)} kWh\n` +
+                    `Heating Load: ${heatingLoad.toFixed(2)} kWh`
+                );
                 console.log("API Response:", result);
 
             } catch (error) {

@@ -18,7 +18,6 @@ const MapView: React.FC = () => {
       zoom: 18,
       pitch: 45,
       bearing: -17.6,
-      antialias: true,
     });
 
     map.on('load', () => {
@@ -36,14 +35,23 @@ const MapView: React.FC = () => {
             source: 'custom-buildings',
             paint: {
               'fill-extrusion-color': [
-                'interpolate',
-                ['linear'],
-                ['get', 'height'],
-                0, 'lightgray',
-                10, 'lightblue',
-                20, 'royalblue',
+                'case',
+                ['has', 'height'], // If the building has a height:
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['get', 'height'],
+                  0, 'lightgray',
+                  10, 'lightblue',
+                  20, 'royalblue'
+                ],
+                'darkgray' // Default color if height is missing
               ],
-              'fill-extrusion-height': ['get', 'height'],
+              'fill-extrusion-height': [
+                'case',
+                ['has', 'height'], ['get', 'height'], // If height exists, use it
+                5 // Otherwise, default to 3 meters
+              ],
               'fill-extrusion-base': 0,
               'fill-extrusion-opacity': 0.8,
             },
@@ -82,7 +90,7 @@ const MapView: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+    <div style={{ position: 'relative', height: '100vh', width: '150vw' }}>
       {/* Map Container */}
       <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
 
