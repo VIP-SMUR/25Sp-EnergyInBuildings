@@ -1,10 +1,19 @@
 import { useEffect } from "react";
 
-const ButtonComponent = () => {
+interface ButtonComponentProps {
+    buildingHeight: number | null;
+}
+
+const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => {
     useEffect(() => {
         const handleClick = async () => {
+            if (buildingHeight === null) {
+                alert("Please click on a building first!");
+                return;
+            }
+
             try {
-                console.log("Sending API request...");
+                alert(`Sending API request with Building Height: ${buildingHeight}m...`);
 
                 const response = await fetch("http://localhost:5000/predict", {
                     method: "POST",
@@ -15,7 +24,7 @@ const ButtonComponent = () => {
                         Building_Type: 1,
                         Building_Shape: 1,
                         Orientation: 1,
-                        Building_Height: 700,
+                        Building_Height: buildingHeight, // Pass clicked building height
                         Building_Stories: 1,
                         Wall_Area: 1,
                         Window_Area: 1,
@@ -38,10 +47,9 @@ const ButtonComponent = () => {
                     `Cooling Load: ${coolingLoad.toFixed(2)} kWh\n` +
                     `Heating Load: ${heatingLoad.toFixed(2)} kWh`
                 );
-                console.log("API Response:", result);
 
-            } catch (error) {
-                console.error("Error during API call:", error);
+            } catch (error: any) {
+                alert(`Error during API call:\n${error.message}`);
             }
         };
 
@@ -55,7 +63,7 @@ const ButtonComponent = () => {
                 button.removeEventListener("click", handleClick);
             }
         };
-    }, []);
+    }, [buildingHeight]);
 
     return null;
 };

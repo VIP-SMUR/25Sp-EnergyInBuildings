@@ -1,114 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react';
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import React, { useState, useCallback } from 'react';
+import MapContainer from './MapContainer';
+import FeatureDisplay from './FeatureDisplay';
 
-const MAPTILER_KEY = 'ixxHuwQrBFlQ9PcwEp0D'; // Replace with your actual MapTiler key
+interface MapViewProps {
+  setBuildingHeight: (height: number | null) => void;
+}
 
-const MapView: React.FC = () => {
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+const MapView: React.FC<MapViewProps> = ({ setBuildingHeight }) => {
   const [features, setFeatures] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (!mapContainerRef.current) return;
+  // useCallback ensures this function doesn't change on every render
+  const handleFeatureClick = useCallback((features: any[]) => {
+    setFeatures(features);
 
-    const map = new maplibregl.Map({
-      container: mapContainerRef.current,
-      style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${MAPTILER_KEY}`,
-      center: [-76.4986, 42.4396],
-      zoom: 18,
-      pitch: 45,
-      bearing: -17.6,
-    });
-
-    map.on('load', () => {
-      fetch('overture-building.geojson')
-        .then((response) => response.json())
-        .then((geojsonData) => {
-          map.addSource('custom-buildings', {
-            type: 'geojson',
-            data: geojsonData,
-          });
-
-          map.addLayer({
-            id: '3d-buildings',
-            type: 'fill-extrusion',
-            source: 'custom-buildings',
-            paint: {
-              'fill-extrusion-color': [
-                'case',
-                ['has', 'height'], // If the building has a height:
-                [
-                  'interpolate',
-                  ['linear'],
-                  ['get', 'height'],
-                  0, 'lightgray',
-                  10, 'lightblue',
-                  20, 'royalblue'
-                ],
-                'darkgray' // Default color if height is missing
-              ],
-              'fill-extrusion-height': [
-                'case',
-                ['has', 'height'], ['get', 'height'], // If height exists, use it
-                5 // Otherwise, default to 3 meters
-              ],
-              'fill-extrusion-base': 0,
-              'fill-extrusion-opacity': 0.8,
-            },
-          });
-        })
-        .catch((error) => console.error('Error loading GeoJSON:', error));
-    });
-
-    map.on('click', (e) => {
-      const clickedFeatures = map.queryRenderedFeatures(e.point, {
-        layers: ['3d-buildings'],
-      });
-
-      const displayProperties = [
-        'type',
-        'properties',
-        'id',
-        'layer',
-        'source',
-        'sourceLayer',
-        'state',
-      ];
-
-      const displayFeatures = clickedFeatures.map((feat) => {
-        const displayFeat: any = {};
-        displayProperties.forEach((prop) => {
-          displayFeat[prop] = feat[prop];
-        });
-        return displayFeat;
-      });
-
-      setFeatures(displayFeatures);
-    });
-
-    return () => map.remove(); // Cleanup on unmount
-  }, []);
+    if (features.length > 0 && features[0].properties) {
+      const height = features[0].properties.height ?? 3; // Default height 3m
+      setBuildingHeight(height);
+    }
+  }, [setBuildingHeight]);
 
   return (
-    <div style={{ position: 'relative', height: '100vh', width: '150vw' }}>
-      {/* Map Container */}
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
-
-      {/* Feature Data Display */}
-      <pre
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: '50%',
-          overflow: 'auto',
-          background: '#fff',
-          padding: '10px',
-        }}
-      >
-        {JSON.stringify(features, null, 2)}
-      </pre>
+    <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+      <MapContainer onFeatureClick={handleFeatureClick} />
+      <FeatureDisplay features={features} />
     </div>
   );
 };
