@@ -24,7 +24,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => 
                         Building_Type: 1,
                         Building_Shape: 1,
                         Orientation: 1,
-                        Building_Height: buildingHeight, // Pass clicked building height
+                        Building_Height: buildingHeight, // pass clicked building height
                         Building_Stories: 1,
                         Wall_Area: 1,
                         Window_Area: 1,

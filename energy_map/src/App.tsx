@@ -21,7 +21,7 @@ function App() {
       {/* UI Elements */}
       <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 10 }}>
         <button type="button" id="hello-button">
-          hello
+          predict
         </button>
         {/* Pass the buildingHeight to ButtonComponent so it uses the correct value */}
         <ButtonComponent buildingHeight={buildingHeight} />
