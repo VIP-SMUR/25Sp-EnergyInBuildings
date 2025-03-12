@@ -64,5 +64,58 @@ def predict():
         'cooling_load_prediction': cooling_load_prediction.tolist()
     })
 
+@app.route('/predict_all', methods=['POST'])
+def predict_all():
+    print("hi")
+    data = request.json
+    print(data)
+    if 'buildings' not in data:
+        return jsonify({"error": "Missing 'buildings' key in request"}), 400
+
+    buildings = data['buildings']  # Expect a list of buildings
+    df_list = []
+
+    for building in buildings:
+        df_list.append({
+            'X1_Type': building['Building_Type'],
+            'X3_Shape': building['Building_Shape'],
+            'X5_Orientation': building['Orientation'],
+            'X6_Height': building['Building_Height'],
+            'X7_Stories': building['Building_Stories'],
+            'X9_WallArea': building['Wall_Area'],
+            'X10_WindowArea': building['Window_Area'],
+            'X12_RoofArea': building['Roof_Area'],
+            'X13_EnergyCode': building['energy_code'],
+            'X14_HVAC': building['hvac_category'],
+        })
+
+    df = pd.DataFrame(df_list)
+    print("got df")
+
+    # Apply label encoders for heating and cooling predictions
+    df_heating = df.copy()
+    df_cooling = df.copy()
+
+    for col, encoder in label_encoders_heating.items():
+        df_heating[col] = encoder.transform(df_heating[col])
+
+    for col, encoder in label_encoders_cooling.items():
+        df_cooling[col] = encoder.transform(df_cooling[col])
+
+    # Make predictions
+    heating_load_predictions = model_heating.predict(df_heating) / (df['X12_RoofArea'] * df['X7_Stories'])
+    cooling_load_predictions = model_cooling.predict(df_cooling) / (df['X12_RoofArea'] * df['X7_Stories'])
+
+    # Prepare the response
+    predictions = []
+    for i, building in enumerate(buildings):
+        predictions.append({
+            'id': building.get('id'),  # Use index if 'id' is missing
+            'heating_load_prediction': heating_load_predictions[i],
+            'cooling_load_prediction': cooling_load_predictions[i]
+        })
+    print(predictions)
+    return jsonify(predictions)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
