@@ -14,6 +14,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => 
 
             try {
                 alert(`Sending API request with Building Height: ${buildingHeight}m...`);
+
                 const response = await fetch("http://localhost:5000/predict", {
                     method: "POST",
                     headers: {
@@ -139,7 +140,6 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => 
         if (button) {
             button.addEventListener("click", handleClick);
         }
-
         // Add a refresh button
         const refreshButton = document.getElementById("refresh-button");
         if (refreshButton) {
@@ -158,5 +158,5 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => 
 
     return null;
 };
-
 export default ButtonComponent;
+
