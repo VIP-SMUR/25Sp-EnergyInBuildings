@@ -22,7 +22,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => 
                     },
                     body: JSON.stringify({
                         Building_Type: 1,
-                        Building_Shape: 1,
+                        Building_Shape: 1, // Not modified here as it uses the clicked building height only.
                         Orientation: 1,
                         Building_Height: buildingHeight, // pass clicked building height
                         Building_Stories: 1,
@@ -66,7 +66,8 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => 
                 const buildings = geojsonData.features.map((feature: any) => ({
                     id: feature.properties.id,
                     Building_Type: 1,
-                    Building_Shape: 1,
+                    // Extract the Shape__Area from properties, defaulting to 0 if not available
+                    Building_Shape: feature.properties.Shape__Area || 0,
                     Orientation: 1,
                     Building_Height: feature.properties.height || 3,
                     Building_Stories: 1,
@@ -158,5 +159,5 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => 
 
     return null;
 };
-export default ButtonComponent;
 
+export default ButtonComponent;
