@@ -31,7 +31,12 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({ features, mode = 'cooli
             }}
         >
             <h4>Building {id}</h4>
-            <p><strong>Height:</strong> {properties.height !== undefined ? `${properties.height.toFixed(2)}m` : '3m*'}</p>
+            <p>
+                <strong>Height:</strong> {properties.height !== undefined ? `${properties.height.toFixed(2)}m` : '3m*'}
+            </p>
+            <p>
+                <strong>Shape Area:</strong> {properties.Shape__Area !== undefined ? `${properties.Shape__Area.toFixed(2)} m²` : 'N/A'}
+            </p>
 
             {properties.heating_load !== undefined && (
                 <p>
