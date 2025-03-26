@@ -1,5 +1,7 @@
 import { calculateOrientation } from "./calculate_building_features/Rotation.ts";
 import { calculateRoofArea } from "./calculate_building_features/RoofArea.ts";
+import { mapBOCToModelIndex } from "./calculate_building_features/BuildingType.ts";
+
 
 interface PredictionResponse {
     cooling_load_prediction?: number[];
@@ -72,10 +74,12 @@ export const predictAll = async (
             const orientation = calculateOrientation(coords);
             const shapeArea = feature.properties.Shape__Area || 0;
             const roofArea = shapeArea > 0 ? shapeArea : calculateRoofArea(coords);
+            const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
+
 
             return {
                 id: feature.properties.id,
-                Building_Type: 1,
+                Building_Type: buildingType,
                 Building_Shape: 1,
                 Orientation: orientation,
                 Building_Height: feature.properties.height || 3,
