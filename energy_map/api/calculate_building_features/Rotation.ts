@@ -6,7 +6,7 @@ export type Coordinate = [number, number];
 export const calculateOrientation = (coordinates: Coordinate[][]): number => {
     if (!coordinates || !Array.isArray(coordinates) || coordinates.length === 0) {
         console.warn("Invalid coordinates provided to calculateOrientation");
-        return 0; // fallback orientation
+        return 0; // fallback angle
     }
 
     const ring = coordinates[0]; // picks outer ring
@@ -34,7 +34,7 @@ export const calculateOrientation = (coordinates: Coordinate[][]): number => {
 
     if (angle < 0) angle += 360;
     let quantized = Math.round(angle / 45) * 45; //ends up being 0, 45, 90, 135, 180, 225, 270, 315, (not 360, it turns to 0 degrees)
-    if (quantized === 360) quantized = 0;
+    if (quantized === 360) quantized = 0; // if quantized is 360, then it turns it to 0
 
     return quantized;
 };

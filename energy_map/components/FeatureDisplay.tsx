@@ -54,7 +54,7 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({ features, mode = 'cooli
                 <strong>Height:</strong> {properties.height !== undefined ? `${properties.height.toFixed(2)}m` : '3m*'}
             </p>
             <p>
-                <strong>Shape Area:</strong> {properties.Shape__Area !== undefined ? `${properties.Shape__Area.toFixed(2)} m²` : 'N/A'}
+                <strong>Roof Area:</strong> {properties.Shape__Area !== undefined ? `${properties.Shape__Area.toFixed(2)} m²` : 'N/A'}
             </p>
             <p>
                 <strong>Orientation:</strong> {`${orientation}°`}

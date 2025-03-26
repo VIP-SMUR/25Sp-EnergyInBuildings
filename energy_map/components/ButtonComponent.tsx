@@ -2,19 +2,19 @@ import { useEffect } from "react";
 import { predict, predictAll } from "../api/route"; // adjust the path as needed
 
 interface ButtonComponentProps {
-  buildingHeight: number | null;
+  selectedFeature: any | null; // full GeoJSON feature
 }
 
-const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => {
+const ButtonComponent: React.FC<ButtonComponentProps> = ({ selectedFeature }) => {
   useEffect(() => {
     const handleClick = async () => {
-      if (buildingHeight === null) {
+      if (selectedFeature === null) {
         alert("Please click on a building first!");
         return;
       }
 
       try {
-        const result = await predict(buildingHeight);
+        const result = await predict(selectedFeature);
         const coolingLoad = result.cooling_load_prediction?.[0] ?? "N/A";
         const heatingLoad = result.heating_load_prediction?.[0] ?? "N/A";
 
@@ -71,7 +71,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ buildingHeight }) => 
         refreshButton.removeEventListener("click", handleRefreshClick);
       }
     };
-  }, [buildingHeight]);
+  }, [selectedFeature]);
 
   return null;
 };

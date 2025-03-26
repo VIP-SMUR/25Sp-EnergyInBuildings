@@ -4,6 +4,7 @@ import FeatureDisplay from './FeatureDisplay';
 
 interface MapViewProps {
     setBuildingHeight: (height: number | null) => void;
+    setSelectedFeature: (feature: any | null) => void;
     mode: 'cooling_load' | 'heating_load'; // Added mode prop
 }
 
