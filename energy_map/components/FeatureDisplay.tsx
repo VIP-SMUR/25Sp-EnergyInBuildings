@@ -1,18 +1,37 @@
 import React from 'react';
+import { calculateOrientation } from '../api/calculate_building_features/Rotation';
 
 interface FeatureDisplayProps {
     features: any[];
-    mode?: 'cooling_load' | 'heating_load'; // Add mode prop
+    mode?: 'cooling_load' | 'heating_load';
 }
 
 const FeatureDisplay: React.FC<FeatureDisplayProps> = ({ features, mode = 'cooling_load' }) => {
     if (features.length === 0) return <div>Click on a building to see details.</div>;
 
     const feature = features[0];
-    const { id, properties } = feature;
+    const { properties } = feature;
+    const id = properties?.id ?? 'Unknown';
+
 
     // Debug logging
     console.log('Feature display properties:', properties);
+
+    // Parse bbox if it exists and is a string.
+    let orientation = 0;
+
+    if (feature?.geometry?.coordinates && feature.geometry.type) {
+        const coords =
+            feature.geometry.type === "MultiPolygon"
+                ? feature.geometry.coordinates[0]
+                : feature.geometry.coordinates;
+
+        orientation = calculateOrientation(coords);
+    } else {
+        console.warn("Missing geometry in feature:", feature);
+    }
+
+
 
     return (
         <div
@@ -37,7 +56,9 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({ features, mode = 'cooli
             <p>
                 <strong>Shape Area:</strong> {properties.Shape__Area !== undefined ? `${properties.Shape__Area.toFixed(2)} m²` : 'N/A'}
             </p>
-
+            <p>
+                <strong>Orientation:</strong> {`${orientation}°`}
+            </p>
             {properties.heating_load !== undefined && (
                 <p>
                     <strong>
@@ -52,7 +73,6 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({ features, mode = 'cooli
                     </span>
                 </p>
             )}
-
             {properties.cooling_load !== undefined && (
                 <p>
                     <strong>
@@ -67,7 +87,6 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({ features, mode = 'cooli
                     </span>
                 </p>
             )}
-
             {(!properties.heating_load && !properties.cooling_load) && (
                 <p><em>No energy data available. Click "Refresh All Predictions" to load data.</em></p>
             )}
@@ -77,18 +96,15 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({ features, mode = 'cooli
 
 // Helper function to get a color based on a value within a range
 function getColorForValue(value: number, min: number, max: number): string {
-    // Ensure value is within range
     const clampedValue = Math.max(min, Math.min(max, value));
-
-    // Calculate a position between 0 and 1
     const position = (clampedValue - min) / (max - min);
 
     if (position < 0.33) {
-        return 'green'; // Low values
+        return 'green';
     } else if (position < 0.66) {
-        return 'orange'; // Medium values
+        return 'orange';
     } else {
-        return 'red'; // High values
+        return 'red';
     }
 }
 
