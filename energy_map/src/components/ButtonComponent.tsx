@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { predict, predictAll } from "../api/route"; // adjust the path as needed
+import { predict, predictAll } from "../../api/route"; // adjust the path as needed
 
 interface ButtonComponentProps {
   selectedFeature: any | null; // full GeoJSON feature
 }
 
-const ButtonComponent: React.FC<ButtonComponentProps> = ({ selectedFeature }) => {
+const ButtonComponent: React.FC<ButtonComponentProps> = ({
+  selectedFeature,
+}) => {
   useEffect(() => {
     const handleClick = async () => {
       if (selectedFeature === null) {
@@ -20,8 +22,16 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ selectedFeature }) =>
 
         alert(
           `Energy Load Predictions:\n\n` +
-          `Cooling Load: ${typeof coolingLoad === "number" ? coolingLoad.toFixed(2) : coolingLoad} kWh\n` +
-          `Heating Load: ${typeof heatingLoad === "number" ? heatingLoad.toFixed(2) : heatingLoad} kWh`
+            `Cooling Load: ${
+              typeof coolingLoad === "number"
+                ? coolingLoad.toFixed(2)
+                : coolingLoad
+            } kWh\n` +
+            `Heating Load: ${
+              typeof heatingLoad === "number"
+                ? heatingLoad.toFixed(2)
+                : heatingLoad
+            } kWh`
         );
       } catch (error: any) {
         alert(`Error during API call:\n${error.message}`);
@@ -35,15 +45,17 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({ selectedFeature }) =>
 
         // Get the map instance from maplibregl
         const map = window.mapInstance;
-        if (map && map.getSource('custom-buildings')) {
-          (map.getSource('custom-buildings') as any).setData(geojsonData);
+        if (map && map.getSource("custom-buildings")) {
+          (map.getSource("custom-buildings") as any).setData(geojsonData);
 
-          const event = new CustomEvent('predictionsUpdated', {
+          const event = new CustomEvent("predictionsUpdated", {
             detail: { geojsonData },
           });
           document.dispatchEvent(event);
 
-          alert(`Successfully refreshed predictions for ${results.length} buildings. Data updated on map.`);
+          alert(
+            `Successfully refreshed predictions for ${results.length} buildings. Data updated on map.`
+          );
         } else {
           console.error("Map or custom-buildings source not found");
           alert("Could not update map data. Try reloading the page.");

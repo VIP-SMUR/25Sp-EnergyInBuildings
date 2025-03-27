@@ -19,9 +19,10 @@ export const predict = async (
                 : feature.geometry.coordinates;
 
         const orientation = calculateOrientation(coords);
-        const shapeArea = feature.properties.Shape__Area || 0; // not the correct shapeArea
-        const roofArea = shapeArea > 0 ? shapeArea : calculateRoofArea(coords);
+        const roofArea = calculateRoofArea(coords);
         const height = feature.properties.height || 3;
+        const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
+
 
         alert(`Sending API request for building ${feature.properties.id}...`);
 
@@ -31,7 +32,7 @@ export const predict = async (
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                Building_Type: 1,
+                Building_Type: buildingType,
                 Building_Shape: 1,
                 Orientation: orientation,
                 Building_Height: height,
@@ -57,13 +58,19 @@ export const predict = async (
 
 
 export const predictAll = async (
-    geojsonUrl: string = 'overture-building.geojson'
+    geojsonInput?: string | GeoJSON.FeatureCollection
 ): Promise<{ geojsonData: any; results: any }> => {
     try {
         alert("Refreshing all building predictions...");
 
-        const geoResponse = await fetch(geojsonUrl);
-        const geojsonData = await geoResponse.json();
+        let geojsonData: any;
+
+        if (typeof geojsonInput === "string" || !geojsonInput) {
+            const geoResponse = await fetch(geojsonInput || 'overture-building.geojson');
+            geojsonData = await geoResponse.json();
+        } else {
+            geojsonData = geojsonInput;
+        }
 
         const buildings = geojsonData.features.map((feature: any) => {
             const coords =
@@ -72,10 +79,8 @@ export const predictAll = async (
                     : feature.geometry.coordinates;
 
             const orientation = calculateOrientation(coords);
-            const shapeArea = feature.properties.Shape__Area || 0;
-            const roofArea = shapeArea > 0 ? shapeArea : calculateRoofArea(coords);
+            const roofArea = calculateRoofArea(coords);
             const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
-
 
             return {
                 id: feature.properties.id,
@@ -127,4 +132,5 @@ export const predictAll = async (
         throw new Error(`Error refreshing predictions: ${error.message}`);
     }
 };
+
 
