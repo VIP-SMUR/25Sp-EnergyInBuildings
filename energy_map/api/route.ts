@@ -1,13 +1,30 @@
-// api.ts
+import { calculateOrientation } from "./calculate_building_features/Rotation.ts";
+import { calculateRoofArea } from "./calculate_building_features/RoofArea.ts";
+import { mapBOCToModelIndex } from "./calculate_building_features/BuildingType.ts";
+
 
 interface PredictionResponse {
     cooling_load_prediction?: number[];
     heating_load_prediction?: number[];
 }
 
-export const predict = async (buildingHeight: number): Promise<PredictionResponse> => {
+
+export const predict = async (
+    feature: any // pass the whole feature, like those used in predictAll
+): Promise<PredictionResponse> => {
     try {
-        alert(`Sending API request with Building Height: ${buildingHeight}m...`);
+        const coords =
+            feature.geometry.type === "MultiPolygon"
+                ? feature.geometry.coordinates[0]
+                : feature.geometry.coordinates;
+
+        const orientation = calculateOrientation(coords);
+        const roofArea = calculateRoofArea(coords);
+        const height = feature.properties.height || 3;
+        const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
+
+
+        alert(`Sending API request for building ${feature.properties.id}...`);
 
         const response = await fetch("http://localhost:5000/predict", {
             method: "POST",
@@ -15,14 +32,14 @@ export const predict = async (buildingHeight: number): Promise<PredictionRespons
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                Building_Type: 1,
+                Building_Type: buildingType,
                 Building_Shape: 1,
-                Orientation: 1,
-                Building_Height: buildingHeight,
+                Orientation: orientation,
+                Building_Height: height,
                 Building_Stories: 1,
                 Wall_Area: 1,
                 Window_Area: 1,
-                Roof_Area: 1,
+                Roof_Area: roofArea,
                 energy_code: 1,
                 hvac_category: 1,
             }),
@@ -38,30 +55,48 @@ export const predict = async (buildingHeight: number): Promise<PredictionRespons
     }
 };
 
-export const predictAll = async (geojsonUrl: string = 'overture-building.geojson'): Promise<{ geojsonData: any; results: any; }> => {
+
+
+export const predictAll = async (
+    geojsonInput?: string | GeoJSON.FeatureCollection
+): Promise<{ geojsonData: any; results: any }> => {
     try {
         alert("Refreshing all building predictions...");
 
-        // Fetch the GeoJSON data
-        const geoResponse = await fetch(geojsonUrl);
-        const geojsonData = await geoResponse.json();
+        let geojsonData: any;
 
-        // Extract building data for prediction
-        const buildings = geojsonData.features.map((feature: any) => ({
-            id: feature.properties.id,
-            Building_Type: 1,
-            Building_Shape: feature.properties.Shape__Area || 0,
-            Orientation: 1,
-            Building_Height: feature.properties.height || 3,
-            Building_Stories: 1,
-            Wall_Area: 1,
-            Window_Area: 1,
-            Roof_Area: 1,
-            energy_code: 1,
-            hvac_category: 1,
-        }));
+        if (typeof geojsonInput === "string" || !geojsonInput) {
+            const geoResponse = await fetch(geojsonInput || 'overture-building.geojson');
+            geojsonData = await geoResponse.json();
+        } else {
+            geojsonData = geojsonInput;
+        }
 
-        // Call the predict_all endpoint
+        const buildings = geojsonData.features.map((feature: any) => {
+            const coords =
+                feature.geometry.type === "MultiPolygon"
+                    ? feature.geometry.coordinates[0]
+                    : feature.geometry.coordinates;
+
+            const orientation = calculateOrientation(coords);
+            const roofArea = calculateRoofArea(coords);
+            const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
+
+            return {
+                id: feature.properties.id,
+                Building_Type: buildingType,
+                Building_Shape: 1,
+                Orientation: orientation,
+                Building_Height: feature.properties.height || 3,
+                Building_Stories: 1,
+                Wall_Area: 1,
+                Window_Area: 1,
+                Roof_Area: roofArea,
+                energy_code: 1,
+                hvac_category: 1,
+            };
+        });
+
         const response = await fetch("http://localhost:5000/predict_all", {
             method: "POST",
             headers: {
@@ -76,7 +111,6 @@ export const predictAll = async (geojsonUrl: string = 'overture-building.geojson
 
         const results = await response.json();
 
-        // Merge the predictions with the geojson data
         const predictionMap = new Map();
         results.forEach((pred: any) => {
             predictionMap.set(pred.id, {
@@ -98,3 +132,5 @@ export const predictAll = async (geojsonUrl: string = 'overture-building.geojson
         throw new Error(`Error refreshing predictions: ${error.message}`);
     }
 };
+
+
