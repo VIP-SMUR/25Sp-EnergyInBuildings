@@ -175,8 +175,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
             "fill-extrusion-height": [
               "case",
               ["has", "height"],
-              ["get", "height"],
-              3, // Default to 3 meters if height is missing
+              ["*", ["get", "height"], 2], // multiply height by 2
+
+              6, // Default to 3 meters if height is missing
             ],
             "fill-extrusion-base": 0,
             "fill-extrusion-opacity": 0.8,
