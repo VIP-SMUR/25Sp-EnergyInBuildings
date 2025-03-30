@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { predictAll } from "../../api/route";
 import maplibregl from "maplibre-gl";
+import { getMinMaxForMode } from "../utils/building.ts";
 
 // Declare the window property for TypeScript
 declare global {

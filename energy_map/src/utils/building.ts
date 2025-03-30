@@ -41,3 +41,14 @@ export function parseFeature(feature: any) {
 
   return { id, height, stories, hvacCategory, energyCode, roofArea, wallArea, orientation, windowArea };
 }
+
+export const getMinMaxForMode = (data: any, mode: "cooling_load" | "heating_load") => {
+  const values = data.features
+    .map((f: any) => f.properties?.[mode])
+    .filter((val: any) => typeof val === "number" && !isNaN(val));
+
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+
+  return { min, max };
+};
