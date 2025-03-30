@@ -1,6 +1,10 @@
 import { calculateOrientation } from "./calculate_building_features/Rotation.ts";
 import { calculateRoofArea } from "./calculate_building_features/RoofArea.ts";
 import { mapBOCToModelIndex } from "./calculate_building_features/BuildingType.ts";
+import { getDefaultHeight } from "./calculate_building_features/BuildingHeight.ts";
+import { getDefaultStories } from "./calculate_building_features/BuildingStory.ts";
+
+
 
 
 interface PredictionResponse {
@@ -20,8 +24,10 @@ export const predict = async (
 
         const orientation = calculateOrientation(coords);
         const roofArea = calculateRoofArea(coords);
-        const height = feature.properties.height || 3;
+        const height = getDefaultHeight(feature.properties);
         const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
+        const stories = getDefaultStories(feature.properties);
+
 
 
         alert(`Sending API request for building ${feature.properties.id}...`);
@@ -36,7 +42,7 @@ export const predict = async (
                 Building_Shape: 1,
                 Orientation: orientation,
                 Building_Height: height,
-                Building_Stories: 1,
+                Building_Stories: stories,
                 Wall_Area: 1,
                 Window_Area: 1,
                 Roof_Area: roofArea,
@@ -81,14 +87,18 @@ export const predictAll = async (
             const orientation = calculateOrientation(coords);
             const roofArea = calculateRoofArea(coords);
             const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
+            const height = getDefaultHeight(feature.properties);
+            const stories = getDefaultStories(feature.properties);
+
+
 
             return {
                 id: feature.properties.id,
                 Building_Type: buildingType,
                 Building_Shape: 1,
                 Orientation: orientation,
-                Building_Height: feature.properties.height || 3,
-                Building_Stories: 1,
+                Building_Height: height,
+                Building_Stories: stories,
                 Wall_Area: 1,
                 Window_Area: 1,
                 Roof_Area: roofArea,

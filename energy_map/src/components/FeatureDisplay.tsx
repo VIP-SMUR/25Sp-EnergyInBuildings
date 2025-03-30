@@ -16,7 +16,7 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
 
   const feature = features[0];
   const { properties } = feature;
-  const { id, height, shapeArea, orientation } = parseFeature(feature); // ⬅️ single source of truth
+  const { id, height, shapeArea, orientation, stories } = parseFeature(feature);
 
   return (
     <div
@@ -39,6 +39,10 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
         <strong>Height:</strong> {height ? `${height.toFixed(2)}m` : "3m*"}
       </p>
       <p>
+        <strong>Floors:</strong> {stories}
+      </p>
+
+      <p>
         <strong>Roof Area:</strong>{" "}
         {shapeArea !== undefined ? `${shapeArea.toFixed(2)} m²` : "N/A"}
       </p>
@@ -57,7 +61,7 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
               fontWeight: mode === "heating_load" ? "bold" : "normal",
             }}
           >
-            {` ${properties.heating_load.toFixed(2)} kWh`}
+            {` ${properties.heating_load.toFixed(2)} kWh/m² per year`}
           </span>
         </p>
       )}
@@ -73,7 +77,7 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
               fontWeight: mode === "cooling_load" ? "bold" : "normal",
             }}
           >
-            {` ${properties.cooling_load.toFixed(2)} kWh`}
+            {` ${properties.cooling_load.toFixed(2)} kWh/m² per year`}
           </span>
         </p>
       )}
