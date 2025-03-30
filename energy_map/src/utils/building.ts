@@ -2,6 +2,12 @@ import { calculateOrientation } from '../../api/calculate_building_features/Rota
 import { calculateRoofArea } from '../../api/calculate_building_features/RoofArea';
 import { getDefaultHeight } from '../../api/calculate_building_features/BuildingHeight';
 import { getDefaultStories } from '../../api/calculate_building_features/BuildingStory';
+import { getHVACCategory } from '../../api/calculate_building_features/HVACCategory';
+import { getEnergyCategory } from "../../api/calculate_building_features/EnergyCode";
+import { calculateWallArea } from "../../api/calculate_building_features/WallArea";
+import { calculateWindowArea } from "../../api/calculate_building_features/WindowArea";
+
+
 
 export function parseFeature(feature: any) {
   const id = feature?.properties?.id ?? 'Unknown';
@@ -10,9 +16,15 @@ export function parseFeature(feature: any) {
 
   const height = getDefaultHeight(properties);
   const stories = getDefaultStories(properties);
+  const hvacCategory = getHVACCategory(properties);
+  const energyCode = getEnergyCategory(properties);
+
 
   let orientation = 0;
   let roofArea = 0;
+  let wallArea = 0;
+  let windowArea = 0;
+
 
   if (geometry?.coordinates && geometry.type) {
     const coords =
@@ -22,7 +34,10 @@ export function parseFeature(feature: any) {
 
     orientation = calculateOrientation(coords);
     roofArea = calculateRoofArea(coords);
+    wallArea = calculateWallArea(coords, height);
+    windowArea = calculateWindowArea(properties, wallArea);
+
   }
 
-  return { id, height, stories, shapeArea: roofArea, orientation };
+  return { id, height, stories, hvacCategory, energyCode, roofArea, wallArea, orientation, windowArea };
 }

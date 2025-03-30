@@ -3,6 +3,14 @@ import { calculateRoofArea } from "./calculate_building_features/RoofArea.ts";
 import { mapBOCToModelIndex } from "./calculate_building_features/BuildingType.ts";
 import { getDefaultHeight } from "./calculate_building_features/BuildingHeight.ts";
 import { getDefaultStories } from "./calculate_building_features/BuildingStory.ts";
+import { getHVACCategory } from "./calculate_building_features/HVACCategory.ts";
+import { getEnergyCategory } from "./calculate_building_features/EnergyCode.ts";
+import { calculateWallArea } from "./calculate_building_features/WallArea.ts";
+import { calculateWindowArea } from "./calculate_building_features/WindowArea";
+
+
+
+
 
 
 
@@ -27,6 +35,12 @@ export const predict = async (
         const height = getDefaultHeight(feature.properties);
         const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
         const stories = getDefaultStories(feature.properties);
+        const hvacCategory = getHVACCategory(feature.properties);
+        const energyCode = getEnergyCategory(feature.properties);
+        const wallArea = calculateWallArea(coords, height);
+        const windowArea = calculateWindowArea(feature.properties, wallArea);
+
+
 
 
 
@@ -43,11 +57,11 @@ export const predict = async (
                 Orientation: orientation,
                 Building_Height: height,
                 Building_Stories: stories,
-                Wall_Area: 1,
-                Window_Area: 1,
+                Wall_Area: wallArea,
+                Window_Area: windowArea,
                 Roof_Area: roofArea,
-                energy_code: 1,
-                hvac_category: 1,
+                energy_code: energyCode,
+                hvac_category: hvacCategory,
             }),
         });
 
@@ -89,6 +103,10 @@ export const predictAll = async (
             const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
             const height = getDefaultHeight(feature.properties);
             const stories = getDefaultStories(feature.properties);
+            const hvacCategory = getHVACCategory(feature.properties);
+            const energyCode = getEnergyCategory(feature.properties);
+            const wallArea = calculateWallArea(coords, height);
+            const windowArea = calculateWindowArea(feature.properties, wallArea);
 
 
 
@@ -99,11 +117,11 @@ export const predictAll = async (
                 Orientation: orientation,
                 Building_Height: height,
                 Building_Stories: stories,
-                Wall_Area: 1,
-                Window_Area: 1,
+                Wall_Area: wallArea,
+                Window_Area: windowArea,
                 Roof_Area: roofArea,
-                energy_code: 1,
-                hvac_category: 1,
+                energy_code: energyCode,
+                hvac_category: hvacCategory,
             };
         });
 

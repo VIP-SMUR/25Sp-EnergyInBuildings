@@ -16,7 +16,7 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
 
   const feature = features[0];
   const { properties } = feature;
-  const { id, height, shapeArea, orientation, stories } = parseFeature(feature);
+  const { id, height, roofArea, orientation, stories, hvacCategory, energyCode, wallArea, windowArea } = parseFeature(feature);
 
   return (
     <div
@@ -44,11 +44,26 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
 
       <p>
         <strong>Roof Area:</strong>{" "}
-        {shapeArea !== undefined ? `${shapeArea.toFixed(2)} m²` : "N/A"}
+        {roofArea !== undefined ? `${roofArea.toFixed(2)} m²` : "N/A"}
       </p>
+      <p>
+        <strong>Wall Area:</strong> {wallArea ? `${wallArea.toFixed(2)} m²` : "N/A"}
+      </p>
+      <p>
+        <strong>Window Area:</strong> {windowArea ? `${windowArea.toFixed(2)} m²` : "N/A"}
+      </p>
+
+
       <p>
         <strong>Orientation:</strong> {`${orientation}°`}
       </p>
+      <p>
+        <strong>HVAC Category:</strong> {hvacCategory}
+      </p>
+      <p>
+        <strong>Energy Code:</strong> {energyCode}
+      </p>
+
       {properties.heating_load !== undefined && (
         <p>
           <strong>
