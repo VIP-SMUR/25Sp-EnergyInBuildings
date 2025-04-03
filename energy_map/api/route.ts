@@ -7,13 +7,7 @@ import { getHVACCategory } from "./calculate_building_features/HVACCategory.ts";
 import { getEnergyCategory } from "./calculate_building_features/EnergyCode.ts";
 import { calculateWallArea } from "./calculate_building_features/WallArea.ts";
 import { calculateWindowArea } from "./calculate_building_features/WindowArea";
-
-
-
-
-
-
-
+import { detectBuildingShape } from "./calculate_building_features/BuildingShape.ts";
 
 interface PredictionResponse {
     cooling_load_prediction?: number[];
@@ -43,6 +37,9 @@ export const predict = async (
 
 
 
+        // Get building shape using the new detection function
+        const shapeResult = detectBuildingShape(coords);
+        const buildingShape = shapeResult.shapeType;
 
         alert(`Sending API request for building ${feature.properties.id}...`);
 
@@ -53,7 +50,7 @@ export const predict = async (
             },
             body: JSON.stringify({
                 Building_Type: buildingType,
-                Building_Shape: 1,
+                Building_Shape: buildingShape,
                 Orientation: orientation,
                 Building_Height: height,
                 Building_Stories: stories,
@@ -110,10 +107,14 @@ export const predictAll = async (
 
 
 
+            // Get building shape using the new detection function
+            const shapeResult = detectBuildingShape(coords);
+            const buildingShape = shapeResult.shapeType;
+
             return {
                 id: feature.properties.id,
                 Building_Type: buildingType,
-                Building_Shape: 1,
+                Building_Shape: buildingShape,
                 Orientation: orientation,
                 Building_Height: height,
                 Building_Stories: stories,

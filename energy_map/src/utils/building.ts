@@ -6,8 +6,7 @@ import { getHVACCategory } from '../../api/calculate_building_features/HVACCateg
 import { getEnergyCategory } from "../../api/calculate_building_features/EnergyCode";
 import { calculateWallArea } from "../../api/calculate_building_features/WallArea";
 import { calculateWindowArea } from "../../api/calculate_building_features/WindowArea";
-
-
+import {defaultBuildingShape, detectBuildingShape} from '../../api/calculate_building_features/BuildingShape';
 
 export function parseFeature(feature: any) {
   const id = feature?.properties?.id ?? 'Unknown';
@@ -24,6 +23,7 @@ export function parseFeature(feature: any) {
   let roofArea = 0;
   let wallArea = 0;
   let windowArea = 0;
+  let buildingShape = defaultBuildingShape();
 
 
   if (geometry?.coordinates && geometry.type) {
@@ -36,10 +36,11 @@ export function parseFeature(feature: any) {
     roofArea = calculateRoofArea(coords);
     wallArea = calculateWallArea(coords, height);
     windowArea = calculateWindowArea(properties, wallArea);
+    buildingShape = detectBuildingShape(coords);
 
   }
 
-  return { id, height, stories, hvacCategory, energyCode, roofArea, wallArea, orientation, windowArea };
+  return { id, height, stories, hvacCategory, energyCode, roofArea, wallArea, orientation, windowArea, buildingShape };
 }
 
 export const getMinMaxForMode = (data: any, mode: "cooling_load" | "heating_load") => {

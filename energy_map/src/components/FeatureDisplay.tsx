@@ -16,7 +16,7 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
 
   const feature = features[0];
   const { properties } = feature;
-  const { id, height, roofArea, orientation, stories, hvacCategory, energyCode, wallArea, windowArea } = parseFeature(feature);
+  const { id, height, roofArea, orientation, stories, hvacCategory, energyCode, wallArea, windowArea ,buildingShape } = parseFeature(feature);
 
   return (
     <div
@@ -58,6 +58,9 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
         <strong>Orientation:</strong> {`${orientation}°`}
       </p>
       <p>
+        <strong>Shape Type:</strong> {`${buildingShape.shapeTypeName} (${buildingShape.shapeType})`}
+      </p>
+      <p>
         <strong>HVAC Category:</strong> {hvacCategory}
       </p>
       <p>
@@ -93,23 +96,24 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
             }}
           >
             {` ${properties.cooling_load.toFixed(2)} kWh/m² per year`}
+
           </span>
-        </p>
-      )}
-      {!properties.heating_load && !properties.cooling_load && (
-        <p>
-          <em>
-            No energy data available. Click "Refresh All Predictions" to load
-            data.
-          </em>
-        </p>
-      )}
-    </div>
+              </p>
+          )}
+          {!properties.heating_load && !properties.cooling_load && (
+              <p>
+                  <em>
+                      No energy data available. Click "Refresh All Predictions" to load
+                      data.
+                  </em>
+              </p>
+          )}
+      </div>
   );
 };
 
 function getColorForValue(value: number, min: number, max: number): string {
-  const clampedValue = Math.max(min, Math.min(max, value));
+    const clampedValue = Math.max(min, Math.min(max, value));
   const position = (clampedValue - min) / (max - min);
 
   if (position < 0.33) return "green";
