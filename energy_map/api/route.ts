@@ -1,7 +1,7 @@
 import { calculateOrientation } from "./calculate_building_features/Rotation.ts";
 import { calculateRoofArea } from "./calculate_building_features/RoofArea.ts";
 import { mapBOCToModelIndex } from "./calculate_building_features/BuildingType.ts";
-
+import { detectBuildingShape } from "./calculate_building_features/BuildingShape.ts";
 
 interface PredictionResponse {
     cooling_load_prediction?: number[];
@@ -23,6 +23,9 @@ export const predict = async (
         const height = feature.properties.height || 3;
         const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
 
+        // Get building shape using the new detection function
+        const shapeResult = detectBuildingShape(coords);
+        const buildingShape = shapeResult.shapeType;
 
         alert(`Sending API request for building ${feature.properties.id}...`);
 
@@ -33,7 +36,7 @@ export const predict = async (
             },
             body: JSON.stringify({
                 Building_Type: buildingType,
-                Building_Shape: 1,
+                Building_Shape: buildingShape,
                 Orientation: orientation,
                 Building_Height: height,
                 Building_Stories: 1,
@@ -82,10 +85,14 @@ export const predictAll = async (
             const roofArea = calculateRoofArea(coords);
             const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
 
+            // Get building shape using the new detection function
+            const shapeResult = detectBuildingShape(coords);
+            const buildingShape = shapeResult.shapeType;
+
             return {
                 id: feature.properties.id,
                 Building_Type: buildingType,
-                Building_Shape: 1,
+                Building_Shape: buildingShape,
                 Orientation: orientation,
                 Building_Height: feature.properties.height || 3,
                 Building_Stories: 1,
