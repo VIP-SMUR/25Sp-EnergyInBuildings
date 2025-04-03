@@ -4,7 +4,7 @@ export type Coordinate = [number, number];
 
 /**
  * Calculates the roof area (in square meters) from GeoJSON-style coordinates
- * using Turf.js for geospatial accuracy.
+ * using Turf.js
  *
  * @param coordinates - A Coordinate[][] representing a polygon's rings
  * @returns Roof area in square meters

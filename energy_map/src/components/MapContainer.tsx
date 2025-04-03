@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { predictAll } from "../../api/route";
 import maplibregl from "maplibre-gl";
+import { getMinMaxForMode } from "../utils/building.tsx";
 
 // Declare the window property for TypeScript
 declare global {
@@ -42,11 +43,11 @@ const MapContainer: React.FC<MapContainerProps> = ({
         "#ffffff", // Out of range (too low) → White
         -9999,
         currentMode === "cooling_load" ? "#b3d9ff" : "#ffb3b3", // Light blue/pink
-        0,
+        10,
         currentMode === "cooling_load" ? "#6699ff" : "#ff6666", // Medium blue/red
-        10000,
+        50,
         currentMode === "cooling_load" ? "#000066" : "#8b0000", // Dark blue/red
-        10001,
+        101,
         currentMode === "cooling_load" ? "#01012e" : "#320101", // Out of range (too high) → White
       ],
       [
@@ -174,8 +175,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
             "fill-extrusion-height": [
               "case",
               ["has", "height"],
-              ["get", "height"],
-              3, // Default to 3 meters if height is missing
+              ["*", ["get", "height"], 2], // multiply height by 2
+
+              6, // Default to 3 meters if height is missing
             ],
             "fill-extrusion-base": 0,
             "fill-extrusion-opacity": 0.8,

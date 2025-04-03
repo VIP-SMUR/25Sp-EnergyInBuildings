@@ -1,6 +1,12 @@
 import { calculateOrientation } from "./calculate_building_features/Rotation.ts";
 import { calculateRoofArea } from "./calculate_building_features/RoofArea.ts";
 import { mapBOCToModelIndex } from "./calculate_building_features/BuildingType.ts";
+import { getDefaultHeight } from "./calculate_building_features/BuildingHeight.ts";
+import { getDefaultStories } from "./calculate_building_features/BuildingStory.ts";
+import { getHVACCategory } from "./calculate_building_features/HVACCategory.ts";
+import { getEnergyCategory } from "./calculate_building_features/EnergyCode.ts";
+import { calculateWallArea } from "./calculate_building_features/WallArea.ts";
+import { calculateWindowArea } from "./calculate_building_features/WindowArea";
 import { detectBuildingShape } from "./calculate_building_features/BuildingShape.ts";
 
 interface PredictionResponse {
@@ -20,8 +26,16 @@ export const predict = async (
 
         const orientation = calculateOrientation(coords);
         const roofArea = calculateRoofArea(coords);
-        const height = feature.properties.height || 3;
+        const height = getDefaultHeight(feature.properties);
         const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
+        const stories = getDefaultStories(feature.properties);
+        const hvacCategory = getHVACCategory(feature.properties);
+        const energyCode = getEnergyCategory(feature.properties);
+        const wallArea = calculateWallArea(coords, height);
+        const windowArea = calculateWindowArea(feature.properties, wallArea);
+
+
+
 
         // Get building shape using the new detection function
         const shapeResult = detectBuildingShape(coords);
@@ -39,12 +53,12 @@ export const predict = async (
                 Building_Shape: buildingShape,
                 Orientation: orientation,
                 Building_Height: height,
-                Building_Stories: 1,
-                Wall_Area: 1,
-                Window_Area: 1,
+                Building_Stories: stories,
+                Wall_Area: wallArea,
+                Window_Area: windowArea,
                 Roof_Area: roofArea,
-                energy_code: 1,
-                hvac_category: 1,
+                energy_code: energyCode,
+                hvac_category: hvacCategory,
             }),
         });
 
@@ -84,6 +98,14 @@ export const predictAll = async (
             const orientation = calculateOrientation(coords);
             const roofArea = calculateRoofArea(coords);
             const buildingType = mapBOCToModelIndex(feature.properties?.BOC);
+            const height = getDefaultHeight(feature.properties);
+            const stories = getDefaultStories(feature.properties);
+            const hvacCategory = getHVACCategory(feature.properties);
+            const energyCode = getEnergyCategory(feature.properties);
+            const wallArea = calculateWallArea(coords, height);
+            const windowArea = calculateWindowArea(feature.properties, wallArea);
+
+
 
             // Get building shape using the new detection function
             const shapeResult = detectBuildingShape(coords);
@@ -94,13 +116,13 @@ export const predictAll = async (
                 Building_Type: buildingType,
                 Building_Shape: buildingShape,
                 Orientation: orientation,
-                Building_Height: feature.properties.height || 3,
-                Building_Stories: 1,
-                Wall_Area: 1,
-                Window_Area: 1,
+                Building_Height: height,
+                Building_Stories: stories,
+                Wall_Area: wallArea,
+                Window_Area: windowArea,
                 Roof_Area: roofArea,
-                energy_code: 1,
-                hvac_category: 1,
+                energy_code: energyCode,
+                hvac_category: hvacCategory,
             };
         });
 
