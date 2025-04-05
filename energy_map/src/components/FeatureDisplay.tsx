@@ -1,6 +1,5 @@
 import React from "react";
-import { calculateOrientation } from "../../api/calculate_building_features/Rotation";
-import { parseFeature } from "../utils/building"; // ⬅️ import the shared helper
+import { parseFeature} from "../utils/building"; // ⬅️ import the shared helper
 
 interface FeatureDisplayProps {
   features: any[];
@@ -16,7 +15,7 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
 
   const feature = features[0];
   const { properties } = feature;
-  const { id, height, roofArea, orientation, stories, hvacCategory, energyCode, wallArea, windowArea ,buildingShape } = parseFeature(feature);
+  const { id, height, roofArea, orientation, stories, hvacCategory, energyCode, wallArea, windowArea,buildingShape, buildingTypeName } = parseFeature(feature);
 
   return (
     <div
@@ -60,6 +59,10 @@ const FeatureDisplay: React.FC<FeatureDisplayProps> = ({
       <p>
         <strong>Shape Type:</strong> {`${buildingShape.shapeTypeName} (${buildingShape.shapeType})`}
       </p>
+      <p>
+      <strong>Building Type:</strong> {buildingTypeName}
+    </p>
+
       <p>
         <strong>HVAC Category:</strong> {hvacCategory}
       </p>
