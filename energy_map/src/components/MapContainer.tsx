@@ -76,10 +76,10 @@ const MapContainer: React.FC<MapContainerProps> = ({
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
       style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${MAPTILER_KEY}`,
-      center: [-76.4986, 42.4396],
-      zoom: 18,
-      pitch: 45,
-      bearing: -17.6,
+      center: [-84.39876992901, 33.77620715314],
+      zoom: 16,
+      pitch: 70,
+      bearing: 0, //-17.6
     });
 
     mapRef.current = map;
