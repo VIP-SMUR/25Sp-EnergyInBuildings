@@ -1,4 +1,3 @@
-working directoy of map
 
 
 One thing we tried to work on:
