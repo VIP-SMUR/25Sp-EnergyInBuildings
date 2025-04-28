@@ -1,12 +1,3 @@
-
-
-One thing we tried to work on:
-- How can we gather data on plants?
-- Tried multiple methods: NDVI(Normalized Difference Vegetation Index) and TreeCountSegHeight model
-- Unfortunately, both weren't extremely successful.
-- NDVI analysis was able to gather data on plants but we need more info, specifically the height of the plantst to be able to meaningfully use the data on plants.
-- TreeCountSegHeight was an ML model we looked at for extracting this data. The issue we ran into with this model is that it's a big model that would slow down our energy model exponentially.
-
 # Rhino Energy Prediction Plugin
 
 ## Overview
@@ -97,3 +88,24 @@ Rhino Energy Prediction Plugin is designed to support architects in making energ
 - **Custom Tab**  
   Give PlugIn standalone VIPEnergy tab so that future energy related plugins that work in the Rhino/GH environment may be added to this parent group.
 ---
+
+# Extracting Vegetation Data
+
+## Overview
+
+We examined various methods of extracting vegetation data for use with the models due to the effect of shading on the heating and cooling load of nearby buildings.
+
+## NDVI Analysis
+
+NDVI (Normalized Difference Vegetation Index) is a metric used to quantify the health and density of vegetation from satellite imagery. Seemed promising at first, but does 
+not provide any way of estimating vegetation height, which is likely needed as a metric for the model to be trained on.
+
+## [TreeCountSegHeight](https://github.com/sizhuoli/TreeCountSegHeight)
+
+A recently developed model called TreeCountSegHeight was also examined for potential integration with the model. It seemed to fit our purposes quite well, returning an estimate
+of tree height from input satellite imagery, but was found to be very computationally intensive. It may have potential to yield results given sufficient hardware, but this was
+a stumbling point in the workflow. 
+
+## Next Steps
+
+Continue searching for a lightweight/efficient way to extract vegetation height from satellite imagery.
