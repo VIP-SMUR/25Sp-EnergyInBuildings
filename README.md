@@ -1,3 +1,9 @@
+## Table of Contents
+- [Rhino Energy Prediction Plugin](#rhino-energy-prediction-plugin)
+- [Energy Map](#energy-map)
+- [Extracting Vegetation Data](#extracting-vegetation-data)
+
+---
 # Rhino Energy Prediction Plugin
 
 ## Overview
@@ -90,19 +96,77 @@ Rhino Energy Prediction Plugin is designed to support architects in making energ
 ---
 # Energy Map 
 
+
 ## Overview
 
-## Repository Structure
+<div align="center">
+  <img src="./Figures/heating.png" width="400">
+  <img src="./Figures/cooling.png" width="400">
+</div>
 
+The energy map provides visualizations of predicted building energy loads (heating and cooling) across an urban environment. Users can click on individual buildings to inspect specific feature details such as building height and estimated energy loads.
+
+Given a GeoJSON file, the application calculates various building features, including height, shape (e.g., L-shaped, H-shaped), number of stories, building type (residential, commercial, etc.), energy code classification, HVAC category, roof area, rotation, wall area, and window area. These extracted features are then fed into a machine learning model, as described here.
+
+
+## Repository Structure
+```
+energy map
+├─ api 
+|  ├─ calculate_building_features # Scripts to calculate building-level features like height, area, rotation 
+|  └─ route.ts # API routing configuration for feature calculations
+|  
+├─ flask-api # Backend Flask server 
+|  
+├─ node_modules # Dependency libraries (auto-generated)
+├─ public # Static public assets
+├─ src 
+|  ├─ assets # Static files such as icons or images
+|  ├─ App.tsx # Main application file
+|  ├─ App.css # Application-level styling
+|  ├─ index.css # Global styles
+|  ├─ main.tsx # Application bootstrap and render entry
+|  └─ components # React components for UI (buttons, feature displays, map container, map view) 
+|     ├─ ButtonComponent.tsx
+|     |  ├─ FeatureDisplay.tsx
+|     |  ├─ MapContainer.tsx
+|     |  ├─ MapView.tsx
+|     └─ utils
+|        └─ building.ts # Utility functions for parsing and handling building feature data
+└─ ...
+```
 ## Getting Started
 
 ### Requirements
+1. Run with Python 3.12.5 (otherwise there are issues with the .pkl files)
+
+2. Install [node.js](https://nodejs.org/en)
 
 ### Set up to run locally
+1. Clone the repository using
+   ```
+   git clone https://github.com/VIP-SMUR/25Sp-EnergyInBuildings-Com.git
+   ```
+2. Navigate to the project folder
+   ```
+   cd energy_map
+   ```
+3. Run front end locally using
+   ```
+   npm run dev
+   ```
+4. To run the flask backend, open a new terminal and navigate to the energy_map/app/flask-api folder. Make sure to have the required python libraries. You can then run app.py without any errors
+   ```
+   pip install -r /path/to/requirements.txt
 
-# Model Information
+   python app.py
+   ```
+
+# Map Information
 
 ### Datasets
+
+The dataset is derived from the [Overture Maps Foundation](https://overturemaps.org/) building footprints, provided in GeoJSON
 
 ---
 
