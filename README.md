@@ -88,6 +88,23 @@ Rhino Energy Prediction Plugin is designed to support architects in making energ
 - **Custom Tab**  
   Give PlugIn standalone VIPEnergy tab so that future energy related plugins that work in the Rhino/GH environment may be added to this parent group.
 ---
+# Energy Map 
+
+## Overview
+
+## Repository Structure
+
+## Getting Started
+
+### Requirements
+
+### Set up to run locally
+
+# Model Information
+
+### Datasets
+
+---
 
 # Extracting Vegetation Data
 
