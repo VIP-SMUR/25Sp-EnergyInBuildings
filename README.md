@@ -8,7 +8,6 @@
   - [Requirements](#requirements)
   - [Tech Stack](#tech-stack)
   - [Roadmap](#roadmap)
-  - [Give PlugIn standalone VIPEnergy tab so that future energy related plugins that work in the Rhino/GH environment may be added to this parent group.](#give-plugin-standalone-vipenergy-tab-so-that-future-energy-related-plugins-that-work-in-the-rhinogh-environment-may-be-added-to-this-parent-group)
 - [Energy Map](#energy-map)
   - [Overview](#overview-1)
   - [Repository Structure](#repository-structure)
@@ -113,8 +112,6 @@ Rhino Energy Prediction Plugin is designed to support architects in making energ
 - **Map Integration**  
   Link with an energy prediction map to import existing building geometry and simulate retrofits.
 
-- **Custom Tab**  
-  Give PlugIn standalone VIPEnergy tab so that future energy related plugins that work in the Rhino/GH environment may be added to this parent group.
 ---
 # Energy Map 
 
