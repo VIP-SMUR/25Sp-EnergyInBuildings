@@ -1,7 +1,29 @@
 ## Table of Contents
 - [Rhino Energy Prediction Plugin](#rhino-energy-prediction-plugin)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Architecture](#architecture)
+  - [Installation](#installation)
+  - [Workflow](#workflow)
+  - [Requirements](#requirements)
+  - [Tech Stack](#tech-stack)
+  - [Roadmap](#roadmap)
+  - [Give PlugIn standalone VIPEnergy tab so that future energy related plugins that work in the Rhino/GH environment may be added to this parent group.](#give-plugin-standalone-vipenergy-tab-so-that-future-energy-related-plugins-that-work-in-the-rhinogh-environment-may-be-added-to-this-parent-group)
 - [Energy Map](#energy-map)
+  - [Overview](#overview-1)
+  - [Repository Structure](#repository-structure)
+  - [Getting Started](#getting-started)
+    - [Requirements](#requirements-1)
+    - [Set up to run locally](#set-up-to-run-locally)
+- [Map Information](#map-information)
+    - [Datasets](#datasets)
 - [Extracting Vegetation Data](#extracting-vegetation-data)
+  - [Overview](#overview-2)
+  - [NDVI Analysis](#ndvi-analysis)
+  - [TreeCountSegHeight](#treecountsegheight)
+  - [Next Steps](#next-steps)
+  - [Presentation](#presentation)
+  - [Team](#team)
 
 ---
 # Rhino Energy Prediction Plugin
@@ -200,17 +222,17 @@ Continue searching for a lightweight/efficient way to extract vegetation height 
 
 ## Team
 
-| Name                | Seniority | Major                  | School | # Semesters | GitHub Handle                                 | Topic Area                                                   |
-| ------------------- | --------- | ---------------------- | ------ | ----------- | --------------------------------------------- | ------------------------------------------------------------ |
-| Joseph M. Aerathu   | Masters   | Architecture (HPB)     | ARCH   | 2           | [jma1999][gh-jma1999]                         | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
-| Anubha Mahajan      | Senior    | Computer Science       | SCS    | 3           | [amahajan68][gh-amahajan68]                   | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
-| Jessica Hernandez   | Masters   | Computer Science       | SCS    | 2           | [jhernandez312][gh-jhernandez312]             | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
-| Hang Xu             | PhD       | Architecture (HBP)     | ARCH   | 2           | [HangXXXu][gh-hangxxxu]                       | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
-| Jiayi Li            | Junior    | Architecture           | ARCH   | 2           | [jli3307][gh-jli3307]                         | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
-| Kavya Lalith        | Sophomore | Computer Engineering   | ECE    | 1           | [kavya‑oop][gh-kavya-oop]                     | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
-| Johnny Chen         | Freshman  | Computer Science       | SCS    | 1           | [jxchen21][gh-jxchen21]                       | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
-| Shivam Patel        | Junior    | Computer Science       | SCS    | 3           | [FlippyShivam][gh-flippyshivam]               | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
-| Yichao Shi          | PhD       | Architecture (DC)      | ARCH   | 2           | [SHIyichao98][gh-shiyichao98]                 | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+| Name                | Seniority | Major                  | School | # Semesters | GitHub Handle                                 | 
+| ------------------- | --------- | ---------------------- | ------ | ----------- | --------------------------------------------- | 
+| Joseph M. Aerathu   | Masters   | Architecture (HPB)     | ARCH   | 2           | [jma1999][gh-jma1999]                         | 
+| Anubha Mahajan      | Senior    | Computer Science       | SCS    | 3           | [amahajan68][gh-amahajan68]                   | 
+| Jessica Hernandez   | Masters   | Computer Science       | SCS    | 2           | [jhernandez312][gh-jhernandez312]             | 
+| Hang Xu             | PhD       | Architecture (HBP)     | ARCH   | 2           | [HangXXXu][gh-hangxxxu]                       | 
+| Jiayi Li            | Junior    | Architecture           | ARCH   | 2           | [jli3307][gh-jli3307]                         | 
+| Kavya Lalith        | Sophomore | Computer Engineering   | ECE    | 1           | [kavya‑oop][gh-kavya-oop]                     | 
+| Johnny Chen         | Freshman  | Computer Science       | SCS    | 1           | [jxchen21][gh-jxchen21]                       | 
+| Shivam Patel        | Junior    | Computer Science       | SCS    | 3           | [FlippyShivam][gh-flippyshivam]               | 
+| Yichao Shi          | PhD       | Architecture (DC)      | ARCH   | 2           | [SHIyichao98][gh-shiyichao98]                 | 
 
 
 [gh-jma1999]:                   https://github.com/jma1999
