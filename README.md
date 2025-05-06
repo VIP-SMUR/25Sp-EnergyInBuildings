@@ -184,9 +184,70 @@ not provide any way of estimating vegetation height, which is likely needed as a
 ## [TreeCountSegHeight](https://github.com/sizhuoli/TreeCountSegHeight)
 
 A recently developed model called TreeCountSegHeight was also examined for potential integration with the model. It seemed to fit our purposes quite well, returning an estimate
-of tree height from input satellite imagery, but was found to be very computationally intensive. It may have potential to yield results given sufficient hardware, but this was
+of tree height from input satellite imagery, but was found to be very computationally intensive. It may have the potential to yield results given sufficient hardware, but this was
 a stumbling point in the workflow. 
 
 ## Next Steps
 
 Continue searching for a lightweight/efficient way to extract vegetation height from satellite imagery.
+
+
+## Presentation
+
+<a href="https://www.youtube.com/watch?v=4AXZ__TYZlY" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.youtube.com/vi/4AXZ__TYZlY/maxresdefault.jpg" width="480" class="off-glb">
+</a>
+
+## Team
+
+| Name                | Seniority | Major                  | School | # Semesters | GitHub Handle                                 | Topic Area                                                   |
+| ------------------- | --------- | ---------------------- | ------ | ----------- | --------------------------------------------- | ------------------------------------------------------------ |
+| Joseph M. Aerathu   | Masters   | Architecture (HPB)     | ARCH   | 2           | [jma1999][gh-jma1999]                         | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+| Anubha Mahajan      | Senior    | Computer Science       | SCS    | 3           | [amahajan68][gh-amahajan68]                   | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+| Jessica Hernandez   | Masters   | Computer Science       | SCS    | 2           | [jhernandez312][gh-jhernandez312]             | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+| Hang Xu             | PhD       | Architecture (HBP)     | ARCH   | 2           | [HangXXXu][gh-hangxxxu]                       | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+| Jiayi Li            | Junior    | Architecture           | ARCH   | 2           | [jli3307][gh-jli3307]                         | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+| Kavya Lalith        | Sophomore | Computer Engineering   | ECE    | 1           | [kavya‑oop][gh-kavya-oop]                     | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+| Johnny Chen         | Freshman  | Computer Science       | SCS    | 1           | [jxchen21][gh-jxchen21]                       | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+| Shivam Patel        | Junior    | Computer Science       | SCS    | 3           | [FlippyShivam][gh-flippyshivam]               | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+| Yichao Shi          | PhD       | Architecture (DC)      | ARCH   | 2           | [SHIyichao98][gh-shiyichao98]                 | [Energy‑In‑Buildings][topic-energy-in-buildings]             |
+
+
+[gh-jma1999]:                   https://github.com/jma1999
+[gh-mlim70]:                     https://github.com/mlim70
+[gh-alvarezdmarch]:              https://github.com/alvarezdmarch
+[gh-changdama]:                  https://github.com/changdama
+[gh-amahajan68]:                 https://github.com/amahajan68
+[gh-jhernandez312]:              https://github.com/jhernandez312
+[gh-benjaminhansyun]:            https://github.com/hshih38
+[gh-thanasarn-changnawa]:        https://github.com/Thanasarn-Changnawa
+[gh-hangxxxu]:                   https://github.com/HangXXXu
+[gh-jxu037]:                     https://github.com/JXU037
+[gh-jli3307]:                    https://github.com/jli3307
+[gh-mcenglish]:                  https://github.com/mcenglish
+[gh-kavya-oop]:                  https://github.com/kavya-oop
+[gh-krishgupta-ce]:              https://github.com/krishgupta-CE
+[gh-vdwang]:                     https://github.com/vdwang
+[gh-cgwallis]:                   https://github.com/cgwallis
+[gh-atharvabeesen]:              https://github.com/AtharvaBeesen
+[gh-paradoxwalk]:                https://github.com/paradoxwalk
+[gh-masonrd]:                    https://github.com/Masonrd
+[gh-jxchen21]:                   https://github.com/jxchen21
+[gh-yupengtang]:                 https://github.com/yupengtang
+[gh-daytss]:                     https://github.com/daytss
+[gh-gvegasol]:                   https://github.com/gvegasol
+[gh-sinarahimi]:                 https://github.com/sinarhm
+[gh-zeyujiang8800]:              https://github.com/zeyujiang8800
+[gh-nstone213]:                  https://github.com/nstone213
+[gh-dodesimo]:                   https://github.com/Dodesimo
+[gh-nithish101]:                 https://github.com/nithish101
+[gh-flippyshivam]:               https://github.com/FlippyShivam
+[gh-xyrro]:                      https://github.com/Xyrro
+[gh-shiyichao98]:                https://github.com/SHIyichao98
+
+[topic-energy-in-buildings]:         ../../25sp-energyinbuildings
+[topic-mponc]:                       ../../25sp-mponc
+[topic-microclimate-umcf]:           ../../25sp-microclimate-umcf
+[topic-neuroarchitecture]:           ../../25sp-neuroarchitecture
+[topic-microclimate-lstm-kriging]:   ../../25sp-microclimate-lstm-kriging
+[topic-mobility-pei]:                ../../25sp-mobility-pei
