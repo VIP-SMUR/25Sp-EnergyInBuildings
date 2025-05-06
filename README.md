@@ -25,7 +25,7 @@
   - [Team](#team)
 
 ---
-# Rhino Energy Prediction Plugin
+# [Rhino Energy Prediction Plugin](https://github.com/VIP-SMUR/25Sp-EnergyPlugin)
 
 ## Overview
 
