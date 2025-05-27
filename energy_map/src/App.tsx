@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import MapView from "./components/MapView"; // Adjust path if needed
 import ButtonComponent from "./components/ButtonComponent";
 

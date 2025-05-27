@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { predictAll } from "../../api/route";
 import maplibregl from "maplibre-gl";
-import { getMinMaxForMode } from "../utils/building.tsx";
+// import { getMinMaxForMode } from "../utils/building.tsx";
 
 // Declare the window property for TypeScript
 declare global {
@@ -22,7 +22,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
   mode,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const [geojsonData, setGeojsonData] = useState<any>(null);
+  const [, setGeojsonData] = useState<any>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
 
   // Function to update the layer style based on mode
@@ -125,14 +125,14 @@ const MapContainer: React.FC<MapContainerProps> = ({
         const data = await response.json();
         setGeojsonData(data);
 
-        // Fetch predictions for all buildings
-        const predictions = await predictAll(data);
+        // Destructure `results` from the object returned by predictAll
+        const { results } = await predictAll(data);
 
-        // Merge predictions with original geojson data
-        if (predictions && predictions.length > 0) {
+        // Make sure results is an array
+        if (results && results.length > 0) {
           // Create a map of id -> prediction
           const predictionMap = new Map();
-          predictions.forEach((pred: any) => {
+          results.forEach((pred: any) => {
             predictionMap.set(pred.id, {
               heating_load: pred.heating_load_prediction,
               cooling_load: pred.cooling_load_prediction,
@@ -209,7 +209,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
       const displayFeatures = clickedFeatures.map((feat) => {
         const displayFeat: any = {};
         displayProperties.forEach((prop) => {
-          displayFeat[prop] = feat[prop];
+          displayFeat[prop] = (feat as any)[prop];
         });
         return displayFeat;
       });

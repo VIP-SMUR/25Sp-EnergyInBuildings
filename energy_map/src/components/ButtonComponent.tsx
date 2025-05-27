@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { predict, predictAll } from "../../api/route"; // adjust the path as needed
 
 interface ButtonComponentProps {
+  buildingHeight: number | null;
   selectedFeature: any | null; // full GeoJSON feature
 }
 

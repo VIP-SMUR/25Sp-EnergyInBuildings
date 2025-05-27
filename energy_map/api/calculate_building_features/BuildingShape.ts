@@ -60,7 +60,7 @@ export const detectBuildingShape = (coordinates: Coordinate[][]): ShapeDetection
 
     // Get the minimum bounding rectangle
     const bbox = turf.bbox(polygon);
-    const minBoundingRect = turf.bboxPolygon(bbox); //Use in later iterations of detections
+    // const minBoundingRect = turf.bboxPolygon(bbox); //Use in later iterations of detections
 
     // Calculate aspect ratio (width/height)
     const width = bbox[2] - bbox[0];
