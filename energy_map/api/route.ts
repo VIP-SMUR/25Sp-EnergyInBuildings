@@ -43,7 +43,7 @@ export const predict = async (
 
         alert(`Sending API request for building ${feature.properties.id}...`);
 
-        const response = await fetch("http://localhost:5000/predict", {
+        const response = await fetch("https://energymap-cpol.onrender.com/predict", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -127,7 +127,7 @@ export const predictAll = async (
             };
         });
 
-        const response = await fetch("http://localhost:5000/predict_all", {
+        const response = await fetch("https://energymap-cpol.onrender.com/predict_all", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
