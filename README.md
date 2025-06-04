@@ -127,7 +127,20 @@ The energy map provides visualizations of predicted building energy loads (heati
 
 Given a GeoJSON file, the application calculates various building features, including height, shape (e.g., L-shaped, H-shaped), number of stories, building type (residential, commercial, etc.), energy code classification, HVAC category, roof area, rotation, wall area, and window area. These extracted features are then fed into a machine learning model, as described here.
 
+## Deployment
 
+It is currently deployed at: https://energymap.vercel.app/
+
+We used two web deployment services: Vercel and Render. For the frontend, we used [Vercel](https://vercel.com), and for the backend we used [Render](https://render.com/)
+
+### Render Settings
+It's deployed as a Web Service with the following settings:  
+
+1. Service as **Web Service**  
+2. Root Directory set as `/energymap/flask-api/ `  
+
+3. Build Command set as `pip install -r requirements.txt`  
+4. Start Command as `python app.py`  
 ## Repository Structure
 ```
 energy map
