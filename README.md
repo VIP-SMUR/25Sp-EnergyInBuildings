@@ -129,18 +129,28 @@ Given a GeoJSON file, the application calculates various building features, incl
 
 ## Deployment
 
-It is currently deployed at: https://energymap.vercel.app/
+It is currently deployed on [Render](https://render.com/) at: https://two5sp-energyinbuildings-1.onrender.com/
 
-We used two web deployment services: Vercel and Render. For the frontend, we used [Vercel](https://vercel.com), and for the backend we used [Render](https://render.com/)
+### Render Frontend Settings
 
-### Render Settings
+It's deployed as a Static Service with the following settings:  
+
+1. Service as **Static Service**  
+2. Root Directory set as `/energy_map/ `  
+
+3. Pushlish Directory as `dist`
+4. Build Command set as `yarn && yarn build`  
+
+### Render Backend Settings
+
 It's deployed as a Web Service with the following settings:  
 
 1. Service as **Web Service**  
 2. Root Directory set as `/energy_map/flask-api/ `  
 
 3. Build Command set as `pip install -r requirements.txt`  
-4. Start Command as `python app.py`  
+4. Start Command as `python app.py`
+
 ## Repository Structure
 ```
 energy map
