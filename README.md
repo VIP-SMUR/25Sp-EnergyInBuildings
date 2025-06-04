@@ -137,7 +137,7 @@ We used two web deployment services: Vercel and Render. For the frontend, we use
 It's deployed as a Web Service with the following settings:  
 
 1. Service as **Web Service**  
-2. Root Directory set as `/energymap/flask-api/ `  
+2. Root Directory set as `/energy_map/flask-api/ `  
 
 3. Build Command set as `pip install -r requirements.txt`  
 4. Start Command as `python app.py`  
